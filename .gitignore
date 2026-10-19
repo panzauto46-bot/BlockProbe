@@ -1,0 +1,9 @@
+runs/
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.superpowers/
+*.egg-info/
+build/
+dist/
