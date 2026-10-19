@@ -4,7 +4,7 @@
 
 .PHONY: setup quick full matrix test demo
 
-OPENMINION_VERSIONS ?= 0.1.3,0.1.4
+OPENMINION_VERSIONS ?= 0.1.4,0.1.5
 
 setup:
 	python -m pip install -e ".[dev,probe]"
