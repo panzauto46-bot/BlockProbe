@@ -558,7 +558,14 @@ def test_markdown_has_the_six_prd_columns():
 
 def test_markdown_has_one_row_per_probe():
     text = render_building_blocks_md(RunSummary.model_validate(FIXTURE))
-    rows = [line for line in text.splitlines() if line.startswith("| P")]
+    # PRD §12 puts Building block in column one, so probe rows start with the
+    # block name, not the probe id; count every data row instead.
+    rows = [
+        line for line in text.splitlines()
+        if line.startswith("|")
+        and not line.startswith("| Building block")
+        and not line.startswith("| ---")
+    ]
     assert len(rows) == 6
 
 

@@ -51,7 +51,7 @@ what is planned.
 | Result models (`ProbeStatus`, `ProbeResult`, `RunSummary`, `Finding`) | Done |
 | Redaction of keys, tokens, emails and home paths | Done |
 | Terminal primitives and the run renderer (internal, not yet wired) | Done |
-| Markdown report | In progress |
+| Markdown report | Done |
 | `doctor` and the CLI entry point | In progress |
 | Probe runner, isolation and call budget | Next |
 | Probes P01–P11 | Next |
@@ -284,9 +284,9 @@ python -m blockprobe --version
 The test suite needs no provider credential and no network access. It runs
 entirely offline.
 
-**What works today:** the package installs, the models and redaction module are
-covered by tests, and `python -m blockprobe --version` prints the version. Probe
-runs arrive with the runner.
+**What works today:** the package installs, the models, redaction module and
+Markdown report are covered by tests, and `python -m blockprobe --version`
+prints the version. Probe runs arrive with the runner.
 
 ## How BlockProbe uses the OpenMinion SDK
 
@@ -327,7 +327,7 @@ BlockProbe/
 │   ├── gate.py                  approval and publish policy     (planned)
 │   ├── probes/                  P01–P11                         (planned)
 │   ├── agents/                  analyst, drafter, tools         (planned)
-│   └── report/                  run renderer (Markdown pending)
+│   └── report/                  terminal + Markdown renderers
 ├── tests/                       pytest suite; no network, no credentials
 ├── docs/
 │   ├── assets/                  banner, architecture, workflow
