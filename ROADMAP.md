@@ -24,7 +24,8 @@
 - **2026-10-20 —** Task 7 shipped: `doctor.py` with the six-check environment capture (`BLOCKPROBE_*` names, redaction at capture, blocked rows carry `next:` fix hints), renderer and exit-code policy; 46 tests green. Remaining on this branch: CLI wiring, edge cases and `FINDINGS.md`.
 - **2026-10-20 —** Task 8 shipped: the `blockprobe` CLI — `doctor` and `report` subcommands wired to the real modules, console script, UTF-8 stdio so legacy Windows consoles survive the Unicode glyphs; 12 CLI tests, 58 green. Remaining on this branch: edge cases and `FINDINGS.md`.
 - **2026-10-20 —** Task 9 shipped: the five review-focus edge cases are pinned (only the empty run needed a renderer change — the counts line now says `0 probes`), `.env.example` carries the verified `BLOCKPROBE_*`/`CORTENSOR_API_KEY` names, and `FINDINGS.md` opens with the three D18 checks plus the condensed F-001…F-013 research; 63 tests green. **The CLI surface and report layer plan is complete** (tasks 1–9).
-- **2026-10-20 —** CI committed: GitHub Actions runs the 63-test suite with `-W error` on Ubuntu and Windows across Python 3.11 and 3.12, on pushes to `main` / `feat/cli-surface` and on pull requests. Echo-provider harness lanes land with the runner plan.
+- **2026-10-20 —** CI committed: GitHub Actions runs the test suite with `-W error` on Ubuntu and Windows across Python 3.11 and 3.12, on pushes to `main` / `feat/cli-surface` and on pull requests. Echo-provider harness lanes land with the runner plan.
+- **2026-10-21 —** Task 5's review findings fixed (`f0ee124`, 66 tests): multi-line failure messages are collapsed before truncation, and unknown statuses render as `ERROR`. CI was pushed; the first run is pending on the account's Actions entitlement.
 - **Blocked —** The real-model run waits on a provider credential.
 
 ---
