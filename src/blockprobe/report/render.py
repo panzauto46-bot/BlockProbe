@@ -186,8 +186,9 @@ def render_run(
 
 def _summary_text(summary: RunSummary) -> str:
     """Return the counts line: status counts, duration and call count."""
+    counts_line = render_counts(summary) if summary.probes else "0 probes"
     parts = [
-        render_counts(summary),
+        counts_line,
         f"{summary.duration_s:.1f}s",
         f"{summary.total_calls} calls",
     ]
