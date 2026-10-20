@@ -16,6 +16,12 @@
 | 4 · Polish and demo | Mon 7 – Sun 13 Dec | README, notes, clean-machine test, video, docs freeze | **M4** Sun 13 Dec |
 | 5 · Submit and buffer | Mon 14 – Sat 19 Dec | PR and DoraHacks submission, buffer | **M5** Wed 16 Dec |
 
+## Progress log
+
+- **2026-10-20 —** Repository is public with a README, MIT licence and three diagrams; the CLI UX spec and a 9-task plan for the CLI surface and report layer are approved. `models.py`, `redact.py`, `terminal.py` and `report/render.py` are on `feat/cli-surface` with tests.
+- **2026-10-20 —** Phase 0 research recorded: OpenMinion 0.1.8 is the latest release, the provider-error defect was fixed upstream after 0.1.4, and Cortensor is a first-class provider.
+- **Blocked —** The real-model run and `FINDINGS.md` wait on a provider credential; CI on the echo provider is not yet added.
+
 ---
 
 ## Phase 0 — Kickoff and setup (Mon 19 – Sun 25 Oct)
@@ -37,7 +43,7 @@
 - [ ] Environment capture and isolated `OPENMINION_*` directories per run.
 - [ ] Probes P01 contract, P02 agent run, P03 tool calling, P04 sessions, P06 errors, P10 diagnostics.
 - [ ] `contracts/0.1.x.json` built from `API_COMPATIBILITY.md`.
-- [ ] Redaction module with tests.
+- [x] Redaction module with tests.
 - [ ] Report renderer: `results.json` and `building-blocks-tested.md`.
 - [ ] Harness tests on the echo provider (no credentials).
 - [ ] README v0: setup and run.

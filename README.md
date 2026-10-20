@@ -50,7 +50,8 @@ what is planned.
 | Packaging, Makefile and pytest harness | Done |
 | Result models (`ProbeStatus`, `ProbeResult`, `RunSummary`, `Finding`) | Done |
 | Redaction of keys, tokens, emails and home paths | Done |
-| Terminal rendering and the Markdown report | In progress |
+| Terminal primitives and the run renderer (internal, not yet wired) | Done |
+| Markdown report | In progress |
 | `doctor` and the CLI entry point | In progress |
 | Probe runner, isolation and call budget | Next |
 | Probes P01–P11 | Next |
@@ -319,13 +320,14 @@ BlockProbe/
 │   ├── __main__.py              python -m blockprobe
 │   ├── models.py                ProbeStatus, ProbeResult, RunSummary, Finding
 │   ├── redact.py                evidence and environment redaction
+│   ├── terminal.py              colour, width and glyph primitives
 │   ├── cli.py                   command surface                 (planned)
 │   ├── runner.py                repeats, timeout, budget        (planned)
 │   ├── env.py                   version and provider capture    (planned)
 │   ├── gate.py                  approval and publish policy     (planned)
 │   ├── probes/                  P01–P11                         (planned)
 │   ├── agents/                  analyst, drafter, tools         (planned)
-│   └── report/                  renderers and templates         (planned)
+│   └── report/                  run renderer (Markdown pending)
 ├── tests/                       pytest suite; no network, no credentials
 ├── docs/
 │   ├── assets/                  banner, architecture, workflow
