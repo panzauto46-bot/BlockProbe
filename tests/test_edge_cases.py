@@ -34,7 +34,7 @@ def test_home_path_in_a_failure_message_is_redacted_in_the_terminal():
     summary = RunSummary.model_validate(FIXTURE)
     summary.probes[0].status = "FAIL"
     summary.probes[0].message = r"could not read C:\Users\dan\AppData\run\P01.log"
-    screen = "\n".join(render_run(summary, colour=False))
+    screen = "\n".join(render_run(summary, colour=False, width=80))
     assert "dan" not in screen
     assert "could not read" in screen
 

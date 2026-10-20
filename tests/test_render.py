@@ -47,7 +47,7 @@ def test_footer_points_at_the_next_command():
 
 
 def test_render_run_contains_probe_lines_table_and_footer():
-    screen = "\n".join(render_run(summary(), colour=False))
+    screen = "\n".join(render_run(summary(), colour=False, width=80))
     assert "P01 contract" in screen
     assert "Building block" in screen
     assert "blockprobe diff" in screen
@@ -59,3 +59,31 @@ def test_summarise_counts():
     assert counts["flaky"] == 1
     assert counts["fail"] == 1
     assert counts["total"] == 6
+
+
+def test_failure_message_is_collapsed_to_one_line():
+    probe = summary().probes[0]
+    probe.status = "FAIL"
+    probe.message = "line one\nline two\tthree"
+    line = render_probe_line(probe, colour=False)
+    assert "\n" not in line
+    assert "\t" not in line
+    assert "line one line two three" in line
+
+
+def test_failure_message_is_truncated_after_collapsing():
+    probe = summary().probes[0]
+    probe.status = "FAIL"
+    probe.message = "x" * 60
+    line = render_probe_line(probe, colour=False)
+    assert "x" * 40 in line
+    assert "x" * 41 not in line
+
+
+def test_unknown_status_is_shown_as_error():
+    data = summary()
+    data.probes[0].status = "NOT_A_STATUS"
+    line = render_probe_line(data.probes[0], colour=False)
+    assert "ERROR" in line
+    assert "NOT_A_STATUS" not in line
+    assert "NOT_A_STATUS" not in "\n".join(render_table(data, colour=False))

@@ -32,6 +32,16 @@ _RULE_WIDTH = 60
 _TABLE_MIN_WIDTH = 60
 
 
+def _display_status(status: str) -> str:
+    """Return a status the renderer can show.
+
+    A value outside the vocabulary is shown as ``ERROR``: a newer probe set
+    must not make the renderer raise, and an arbitrary token would break the
+    fixed status column.
+    """
+    return status if status in STATUS_ORDER else "ERROR"
+
+
 def summarise(summary: RunSummary) -> dict:
     """Return the machine-readable counts for *summary*.
 
@@ -59,7 +69,7 @@ def render_probe_line(probe: ProbeResult, colour: bool = True) -> str:
     and a failure message - redacted and cut to 40 characters - appears for
     the statuses whose cause matters.
     """
-    status = str(probe.status)
+    status = _display_status(str(probe.status))
     status_cell = f"{status:<7}"
     if colour:
         status_cell = style(status_cell, status_colour(status))
@@ -80,7 +90,7 @@ def render_probe_list(probe: ProbeResult, colour: bool = True) -> str:
     One space between fields and no padding, so the line costs only as much
     width as its content needs.
     """
-    status = str(probe.status)
+    status = _display_status(str(probe.status))
     status_text = style(status, status_colour(status)) if colour else status
     fields = [f"  {GLYPHS.probe} {probe.probe_id}", probe.label, status_text]
     latency = _latency_text(probe.latency_p50_s)
@@ -129,7 +139,7 @@ def render_table(summary: RunSummary, colour: bool = True) -> list[str]:
     )
     rows = [header]
     for probe in summary.probes:
-        status = str(probe.status)
+        status = _display_status(str(probe.status))
         status_cell = f"{status:<6}"
         if colour:
             status_cell = style(status_cell, status_colour(status))
@@ -206,7 +216,8 @@ def _message_text(probe: ProbeResult, status: str) -> str:
     """Return the redacted, truncated cause for a failure, or an empty string."""
     if status not in _FAILURE_STATUSES or not probe.message:
         return ""
-    return redact_text(probe.message)[:_MESSAGE_LIMIT]
+    collapsed = " ".join(redact_text(probe.message).split())
+    return collapsed[:_MESSAGE_LIMIT]
 
 
 def _message_suffix(probe: ProbeResult, status: str) -> str:
