@@ -22,6 +22,7 @@
 - **2026-10-20 —** Phase 0 research recorded: OpenMinion 0.1.8 is the latest release, the provider-error defect was fixed upstream after 0.1.4, and Cortensor is a first-class provider.
 - **2026-10-20 —** Task 6 shipped on `feat/cli-surface`: the `building-blocks-tested.md` renderer with redaction and no-clobber `--force` semantics, template included in built wheels; 39 tests green. Remaining on this branch: doctor, CLI wiring, edge cases and `FINDINGS.md`.
 - **2026-10-20 —** Task 7 shipped: `doctor.py` with the six-check environment capture (`BLOCKPROBE_*` names, redaction at capture, blocked rows carry `next:` fix hints), renderer and exit-code policy; 46 tests green. Remaining on this branch: CLI wiring, edge cases and `FINDINGS.md`.
+- **2026-10-20 —** Task 8 shipped: the `blockprobe` CLI — `doctor` and `report` subcommands wired to the real modules, console script, UTF-8 stdio so legacy Windows consoles survive the Unicode glyphs; 12 CLI tests, 58 green. Remaining on this branch: edge cases and `FINDINGS.md`.
 - **Blocked —** The real-model run and `FINDINGS.md` wait on a provider credential; CI on the echo provider is not yet added.
 
 ---

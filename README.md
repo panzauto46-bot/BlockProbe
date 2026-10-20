@@ -52,14 +52,14 @@ what is planned.
 | Redaction of keys, tokens, emails and home paths | Done |
 | Terminal primitives and the run renderer (internal, not yet wired) | Done |
 | Markdown report | Done |
-| `doctor` and the CLI entry point | In progress |
+| `doctor` and the CLI entry point | Done |
 | Probe runner, isolation and call budget | Next |
 | Probes P01–P11 | Next |
 | Analyst agent, diff, matrix and publish gate | Later |
 
-Only `python -m blockprobe --version` is wired today. The other commands are
-specified in the [CLI reference](#cli-reference) and land in the order shown in
-the [roadmap](#roadmap). The probe runner is the next milestone.
+`blockprobe doctor` and `blockprobe report` are wired today; the other
+commands are specified in the [CLI reference](#cli-reference) and land in the
+order shown in the [roadmap](#roadmap). The probe runner is the next milestone.
 
 ## Why BlockProbe
 
@@ -227,9 +227,9 @@ order shown in the roadmap.
 
 | Command | What it does | Status |
 |---|---|---|
-| `blockprobe doctor` | Checks environment, provider and budget; one verdict line. | Planned · Phase 1 |
+| `blockprobe doctor` | Checks environment, provider and budget; one verdict line. | Available |
 | `blockprobe run` | Runs the probe suite and writes `runs/<id>/`. | Planned · Phase 1 |
-| `blockprobe report` | Re-renders a saved run; prints the raw deliverable with `--md`. | Planned · Phase 1 |
+| `blockprobe report` | Re-renders a saved run; prints the raw deliverable with `--md`. | Available |
 | `blockprobe analyze` | Runs the analyst over an existing run. | Planned · Phase 2 |
 | `blockprobe diff` | Compares two runs: regressions, fixes, unstable, added, removed. | Planned · Phase 2 |
 | `blockprobe matrix` | Runs the same suite across several OpenMinion versions. | Planned · Phase 2 |
@@ -285,8 +285,9 @@ The test suite needs no provider credential and no network access. It runs
 entirely offline.
 
 **What works today:** the package installs, the models, redaction module and
-Markdown report are covered by tests, and `python -m blockprobe --version`
-prints the version. Probe runs arrive with the runner.
+Markdown report are covered by tests, `python -m blockprobe --version` prints
+the version, and `blockprobe doctor` / `blockprobe report` run against a saved
+`results.json` — terminal, Markdown and JSON. Probe runs arrive with the runner.
 
 ## How BlockProbe uses the OpenMinion SDK
 
@@ -321,8 +322,8 @@ BlockProbe/
 │   ├── models.py                ProbeStatus, ProbeResult, RunSummary, Finding
 │   ├── redact.py                evidence and environment redaction
 │   ├── terminal.py              colour, width and glyph primitives
-│   ├── doctor.py                environment checks              (not yet wired)
-│   ├── cli.py                   command surface                 (planned)
+│   ├── doctor.py                environment checks
+│   ├── cli.py                   command surface (doctor, report)
 │   ├── runner.py                repeats, timeout, budget        (planned)
 │   ├── env.py                   version and provider capture    (planned)
 │   ├── gate.py                  approval and publish policy     (planned)
