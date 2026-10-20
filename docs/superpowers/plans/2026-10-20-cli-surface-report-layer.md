@@ -108,7 +108,7 @@ if __name__ == "__main__":
 
 `.gitignore` ignores `runs/`, `.env`, `.venv/`, `__pycache__/`, `.pytest_cache/`, `.superpowers/`.
 
-`.env.example` lists variable names only, no values: `OPENMINION_API_KEY`, `OPENMINION_PROVIDER`, `OPENMINION_MODEL`, `OPENMINION_BUDGET`, `TWENTYFIRST_TOKEN`, `GITHUB_TOKEN`.
+`.env.example` lists variable names only, no values: `OPENMINION_CONFIG_PATH`, `CORTENSOR_API_KEY`, `BLOCKPROBE_PROVIDER`, `BLOCKPROBE_MODEL`, `BLOCKPROBE_BUDGET`, `TWENTYFIRST_TOKEN`, `GITHUB_TOKEN`. The `BLOCKPROBE_*` names are BlockProbe's own; `openminion` 0.1.8 has no `OPENMINION_PROVIDER`, `OPENMINION_MODEL` or `OPENMINION_BUDGET`, and credentials are per provider (`CORTENSOR_API_KEY` for the Cortensor provider, whose default endpoint is a local router at `http://127.0.0.1:8080/api/v2/completions`).
 
 - [ ] **Step 4: Run test to verify it passes**
 
@@ -598,9 +598,11 @@ git commit -m "feat: add building blocks tested markdown report"
 **Interfaces:**
 - Consumes: `redact_text` from `blockprobe.redact`; `style`, `dim`, `green`, `red`, `terminal_width` from `blockprobe.terminal`.
 - Produces (in `blockprobe.doctor`):
-  - `class CheckResult(BaseModel)` with fields `name: str`, `value: str`, `ok: bool`, `detail: str = ""`.
+  - `class CheckResult(BaseModel)` with fields `name: str`, `value: str`, `ok: bool`, `detail: str = ""`, `next_step: str = ""`. The `next_step` is the command or action that fixes a failed check, following the convention `openminion status readiness` uses (`next: openminion setup`).
   - `class EnvironmentInfo(BaseModel)` with fields `os_name: str`, `python_version: str`, `openminion_version: str`, `install_source: str`, `provider: str`, `model: str`, `budget_calls: int | None`, `check_turn: str`, `timestamp: str`, `checks: list[CheckResult] = []`.
-  - `capture_environment(probe_turn: Callable[[], str] | None = None) -> EnvironmentInfo` — gathers OS, python version, the installed `openminion` version and install source, the provider and model names from the environment (`OPENMINION_PROVIDER`, `OPENMINION_MODEL`), the budget from `OPENMINION_BUDGET` if set, and the `openminion doctor --check-turn --json` output summarised through `probe_turn` when that callable is supplied. Never includes a secret.
+  - `capture_environment(probe_turn: Callable[[], str] | None = None) -> EnvironmentInfo` — gathers OS, python version, the installed `openminion` version and install source, the provider and model names from BlockProbe's own environment variables (`BLOCKPROBE_PROVIDER`, `BLOCKPROBE_MODEL`), the budget from `BLOCKPROBE_BUDGET` if set, and the `openminion doctor --check-turn --json` output summarised through `probe_turn` when that callable is supplied. Never includes a secret, and never reads `agents.json`, which carries provider credentials.
+
+    The `BLOCKPROBE_*` names are deliberate. `openminion` 0.1.8 has no `OPENMINION_PROVIDER`, `OPENMINION_MODEL` or `OPENMINION_BUDGET` — the only `OPENMINION_PROVIDER*` names are `OPENMINION_PROVIDER_INTERFACE_STRICT` and `OPENMINION_PROVIDER_THINKING_PASSTHROUGH`. Reading them would always yield `unknown`. Provider credentials are per provider (`providers.<name>.api_key`, or the provider's `api_key_env` such as `CORTENSOR_API_KEY`), so naming the provider is BlockProbe's concern, not `openminion`'s.
   - `render_doctor(info: EnvironmentInfo, colour: bool = True) -> list[str]` — one `name  value` row per check, a blank line, and a closing verdict line `"6 checks passed · provider reachable · budget set"`.
   - `doctor_exit_code(info: EnvironmentInfo) -> int` — 0 when every check is ok, 4 when the provider or environment is unavailable.
 
@@ -661,7 +663,7 @@ Expected: FAIL with `ModuleNotFoundError: No module named 'blockprobe.doctor'`
 
 `capture_environment` reads the `openminion` version by importing the package and reading `__version__`, falling back to `"unknown"`. It records the install source as `pip`, `uv`, `editable` or `unknown`. Every captured value passes through `redact_text` before it is stored, so a provider string that accidentally contains a token is scrubbed.
 
-`render_doctor` prints one row per check as `name` padded to 20 characters, then the value, with the value coloured green when the check is ok and red when it is not. The verdict line counts the passed checks and names the provider and budget state.
+`render_doctor` prints one row per check as `name` padded to 20 characters, then the value, with the value coloured green when the check is ok and red when it is not. When a check is not ok and `next_step` is set, the following line is `    next: <next_step>`, the same fix-hint convention `openminion status readiness` uses. The verdict line counts the passed checks and names the provider and budget state; when `budget_calls` is `None` the verdict says `budget not set` rather than `budget set`.
 
 - [ ] **Step 4: Run test to verify it passes**
 
