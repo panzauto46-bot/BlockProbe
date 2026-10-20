@@ -19,6 +19,12 @@ class ProbeStatus(str, Enum):
     SKIP = "SKIP"
     ERROR = "ERROR"
 
+    # Python 3.11+ made Enum.__format__ follow Enum.__str__, and a plain str
+    # mixin does not override Enum.__str__, so f"{ProbeStatus.PASS}" would
+    # render "ProbeStatus.PASS" instead of "PASS". Restore str's own
+    # behaviour so status renders (and pads) as its value.
+    __str__ = str.__str__
+
 
 class ProbeResult(BaseModel):
     """The outcome of probing one building block."""

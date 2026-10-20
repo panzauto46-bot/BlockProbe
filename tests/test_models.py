@@ -29,3 +29,9 @@ def test_run_summary_defaults_to_empty_probes():
 def test_missing_required_field_raises():
     with pytest.raises(ValidationError):
         ProbeResult(probe_id="P01")
+
+
+def test_status_formats_as_its_value():
+    assert str(ProbeStatus.PASS) == "PASS"
+    assert f"{ProbeStatus.PASS:<7}" == "PASS   "
+    assert ProbeStatus.PASS == "PASS"
