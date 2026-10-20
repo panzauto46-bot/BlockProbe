@@ -318,21 +318,38 @@ git commit -m "feat: add evidence and environment redaction"
 ```python
 # tests/test_terminal.py
 import io
+import os
+import shutil
+
 from blockprobe.terminal import (
     Glyphs, colour_enabled, status_colour, style, terminal_width,
 )
+
+
+class _TtyStream:
+    """A stream that reports itself as a TTY, for the gating tests."""
+
+    def __init__(self, tty: bool = True):
+        self._tty = tty
+
+    def isatty(self) -> bool:
+        return self._tty
 
 
 def test_colour_disabled_for_non_tty():
     assert colour_enabled(io.StringIO()) is False
 
 
+def test_colour_enabled_for_tty_without_no_color():
+    assert colour_enabled(_TtyStream(), env={}) is True
+
+
 def test_colour_disabled_by_no_color_env():
-    assert colour_enabled(io.StringIO(), env={"NO_COLOR": "1"}) is False
+    assert colour_enabled(_TtyStream(), env={"NO_COLOR": "1"}) is False
 
 
 def test_colour_disabled_by_force_off():
-    assert colour_enabled(io.StringIO(), force_off=True) is False
+    assert colour_enabled(_TtyStream(), force_off=True, env={}) is False
 
 
 def test_style_wraps_with_ansi():
@@ -361,8 +378,11 @@ def test_ascii_glyphs_fallback():
     assert ascii_glyphs.arrow == "->"
 
 
-def test_terminal_width_has_a_floor():
-    assert terminal_width() >= 40
+def test_terminal_width_has_a_floor(monkeypatch):
+    monkeypatch.setattr(
+        shutil, "get_terminal_size", lambda fallback=None: os.terminal_size((20, 24))
+    )
+    assert terminal_width() == 40
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
@@ -372,12 +392,12 @@ Expected: FAIL with `ModuleNotFoundError: No module named 'blockprobe.terminal'`
 
 - [ ] **Step 3: Implement `terminal.py`**
 
-No third-party dependency. The colour decision order in `colour_enabled` is: `force_off` wins, then `NO_COLOR`, then TTY. `style` accepts several codes and joins them with `;`.
+No third-party dependency. The colour decision order in `colour_enabled` is: `force_off` wins, then `NO_COLOR`, then TTY. `style` accepts several codes and joins them with `;`. The `terminal_width` docstring must say the fallback applies when neither `COLUMNS` nor the OS reports a size — not whenever output is redirected.
 
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `pytest tests/test_terminal.py -v`
-Expected: PASS (9 passed)
+Expected: PASS (10 passed)
 
 - [ ] **Step 5: Commit**
 
@@ -430,7 +450,7 @@ def summary() -> RunSummary:
 
 def test_probe_line_shape():
     line = render_probe_line(summary().probes[0], colour=False)
-    assert line.startswith("  > P01 contract")
+    assert line.startswith("  ▸ P01 contract")
     assert "PASS" in line
     assert "0.4s" in line
 
@@ -483,7 +503,7 @@ Expected: FAIL with `ModuleNotFoundError: No module named 'blockprobe.report'`
 
 - [ ] **Step 3: Implement `render.py`**
 
-All functions take a `colour: bool = True` flag and apply colour only when it is true, so tests can assert on plain text. `render_run` picks `render_table` when the width is at least 60 and `render_probe_list` lines otherwise; the width comes from the `width` argument, and `None` means `terminal_width()`.
+All functions take a `colour: bool = True` flag and apply colour only when it is true, so tests can assert on plain text. `render_run` picks `render_table` when the width is at least 60 and `render_probe_list` lines otherwise; the width comes from the `width` argument, and `None` means `terminal_width()`. Probe lines use `GLYPHS`, the Unicode set; the ASCII set is available only by constructing `Glyphs(ascii_mode=True)`, and no render function takes an ASCII flag in this plan.
 
 - [ ] **Step 4: Run test to verify it passes**
 
