@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 420" width="1600" height="420" role="img" aria-label="BlockProbe — a canary for OpenMinion upgrades">
+  <rect width="1600" height="420" fill="#0B1220"/>
+  <rect x="0" y="0" width="6" height="420" fill="#F5B841"/>
+
+  <!-- Wordmark -->
+  <text x="96" y="112" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" letter-spacing="3.2" fill="#8FA3BF">CORTENSOR HACKATHON #5 · OPENMINION 0.1.x</text>
+  <text x="92" y="236" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="104" font-weight="700" letter-spacing="-2">
+    <tspan fill="#E8EEF9">Block</tspan><tspan fill="#F5B841">Probe</tspan>
+  </text>
+  <text x="96" y="296" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="26" fill="#C9D6EA">A canary for OpenMinion upgrades.</text>
+  <text x="96" y="340" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#8FA3BF">Probe the building blocks. Classify what breaks. Report with evidence.</text>
+
+  <!-- Probe grid -->
+  <g stroke="#2E4468" stroke-width="1.5" fill="#16223A">
+    <rect x="1180" y="96" width="64" height="64" rx="10"/>
+    <rect x="1262" y="96" width="64" height="64" rx="10" fill="#F5B841" stroke="#F5B841"/>
+    <rect x="1344" y="96" width="64" height="64" rx="10"/>
+    <rect x="1426" y="96" width="64" height="64" rx="10"/>
+    <rect x="1180" y="178" width="64" height="64" rx="10"/>
+    <rect x="1262" y="178" width="64" height="64" rx="10"/>
+    <rect x="1344" y="178" width="64" height="64" rx="10"/>
+    <rect x="1426" y="178" width="64" height="64" rx="10"/>
+    <rect x="1180" y="260" width="64" height="64" rx="10"/>
+    <rect x="1262" y="260" width="64" height="64" rx="10"/>
+    <rect x="1344" y="260" width="64" height="64" rx="10"/>
+    <rect x="1426" y="260" width="64" height="64" rx="10"/>
+  </g>
+
+  <!-- Crosshair on the probed block -->
+  <g stroke="#0B1220" stroke-width="2.5" fill="none" opacity="0.85">
+    <line x1="1294" y1="112" x2="1294" y2="144"/>
+    <line x1="1278" y1="128" x2="1310" y2="128"/>
+  </g>
+  <circle cx="1294" cy="128" r="7" fill="none" stroke="#0B1220" stroke-width="2.5"/>
+
+  <!-- Probe rings -->
+  <g fill="none" stroke="#F5B841">
+    <circle cx="1294" cy="128" r="52" opacity="0.32" stroke-width="1.5"/>
+    <circle cx="1294" cy="128" r="94" opacity="0.18" stroke-width="1.5"/>
+    <circle cx="1294" cy="128" r="138" opacity="0.10" stroke-width="1.5"/>
+  </g>
+
+  <text x="1490" y="376" text-anchor="end" font-family="JetBrains Mono, Cascadia Code, Consolas, monospace" font-size="12" letter-spacing="1.4" fill="#5F718D">probe · classify · report · diff</text>
+</svg>
