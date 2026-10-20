@@ -525,6 +525,7 @@ git commit -m "feat: add run output renderer with live probe lines and results t
 - Create: `src/blockprobe/report/templates/building-blocks-tested.md`
 - Create: `src/blockprobe/report/markdown.py`
 - Create: `tests/test_markdown.py`
+- Modify: `pyproject.toml` (ship the template in built distributions)
 
 **Interfaces:**
 - Consumes: `RunSummary` from `blockprobe.models`; `redact_model` from `blockprobe.redact`.
@@ -594,6 +595,8 @@ Expected: FAIL with `ModuleNotFoundError: No module named 'blockprobe.report.mar
 `src/blockprobe/report/templates/building-blocks-tested.md` is a plain-text template using `str.format` placeholders. Its first line is exactly `# Building Blocks Tested`, followed by a blank line, then a metadata block (openminion version, python version, os, provider, model, run id, started at), then the six-column table header row and its separator. `render_building_blocks_md` fills it and returns the complete string ending with a newline.
 
 `write_building_blocks_md` redacts the summary with `redact_model` before rendering, checks `out_dir / REPORT_FILENAME`, and only writes when the file is absent or `force` is true.
+
+`pyproject.toml` gains a `[tool.setuptools.package-data]` table with `"blockprobe.report" = ["templates/*.md"]`. Without it the template survives an editable install but is missing from a built wheel, so an installed BlockProbe would fail to render the report.
 
 - [ ] **Step 4: Run test to verify it passes**
 
