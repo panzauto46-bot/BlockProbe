@@ -341,6 +341,7 @@ BlockProbe/
 ├── pyproject.toml               packaging, dependencies, pytest config
 ├── PRD.md                       requirements and probe catalog
 ├── ROADMAP.md                   phases, milestones and scope cuts
+├── FINDINGS.md                  dated environment and SDK findings
 └── README.md
 ```
 

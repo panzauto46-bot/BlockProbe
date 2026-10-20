@@ -23,7 +23,8 @@
 - **2026-10-20 —** Task 6 shipped on `feat/cli-surface`: the `building-blocks-tested.md` renderer with redaction and no-clobber `--force` semantics, template included in built wheels; 39 tests green. Remaining on this branch: doctor, CLI wiring, edge cases and `FINDINGS.md`.
 - **2026-10-20 —** Task 7 shipped: `doctor.py` with the six-check environment capture (`BLOCKPROBE_*` names, redaction at capture, blocked rows carry `next:` fix hints), renderer and exit-code policy; 46 tests green. Remaining on this branch: CLI wiring, edge cases and `FINDINGS.md`.
 - **2026-10-20 —** Task 8 shipped: the `blockprobe` CLI — `doctor` and `report` subcommands wired to the real modules, console script, UTF-8 stdio so legacy Windows consoles survive the Unicode glyphs; 12 CLI tests, 58 green. Remaining on this branch: edge cases and `FINDINGS.md`.
-- **Blocked —** The real-model run and `FINDINGS.md` wait on a provider credential; CI on the echo provider is not yet added.
+- **2026-10-20 —** Task 9 shipped: the five review-focus edge cases are pinned (only the empty run needed a renderer change — the counts line now says `0 probes`), `.env.example` carries the verified `BLOCKPROBE_*`/`CORTENSOR_API_KEY` names, and `FINDINGS.md` opens with the three D18 checks plus the condensed F-001…F-013 research; 63 tests green. **The CLI surface and report layer plan is complete** (tasks 1–9).
+- **Blocked —** The real-model run waits on a provider credential; CI on the echo provider is not yet added.
 
 ---
 
@@ -34,7 +35,7 @@
 - [ ] Fork and star `openminion/openminion`; follow OpenMinion and Cortensor on GitHub and X.
 - [ ] Install `openminion` in a clean virtual environment (Python 3.11+); pick a real provider and model; set a spend cap.
 - [ ] Run `openminion doctor --check-turn --json`, the starter quickstart, and `examples/sdk/submitted_stream.py` on the real provider.
-- [ ] Start `FINDINGS.md` with the first command and log every rough edge: docs gaps, confusing errors, Windows issues.
+- [x] Start `FINDINGS.md` with the first command and log every rough edge: docs gaps, confusing errors, Windows issues.
 - [ ] Read `API_COMPATIBILITY.md`, `docs/runtime-surfaces.md` and `examples/sdk/`; answer the open questions in PRD section 17.
 - [ ] Create the `blockprobe` repo with the skeleton from PRD section 11 (pyproject, Makefile, CI on the echo provider).
 
