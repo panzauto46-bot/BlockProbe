@@ -321,6 +321,7 @@ BlockProbe/
 │   ├── models.py                ProbeStatus, ProbeResult, RunSummary, Finding
 │   ├── redact.py                evidence and environment redaction
 │   ├── terminal.py              colour, width and glyph primitives
+│   ├── doctor.py                environment checks              (not yet wired)
 │   ├── cli.py                   command surface                 (planned)
 │   ├── runner.py                repeats, timeout, budget        (planned)
 │   ├── env.py                   version and provider capture    (planned)
