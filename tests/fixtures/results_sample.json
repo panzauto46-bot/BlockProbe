@@ -1,0 +1,67 @@
+{
+  "run_id": "2026-10-20-1432",
+  "started_at": "2026-10-20T14:32:00Z",
+  "openminion_version": "0.1.4",
+  "python_version": "3.12.0",
+  "os_name": "windows 10.0.19045",
+  "provider": "portal",
+  "model": "gemma-4",
+  "total_calls": 22,
+  "duration_s": 9.8,
+  "probes": [
+    {
+      "probe_id": "P01",
+      "label": "contract",
+      "building_block": "Public contract",
+      "status": "PASS",
+      "repeats": 3,
+      "passed": 3,
+      "latency_p50_s": 0.4
+    },
+    {
+      "probe_id": "P02",
+      "label": "agent_run",
+      "building_block": "Agent execution",
+      "status": "PASS",
+      "repeats": 3,
+      "passed": 3,
+      "latency_p50_s": 1.8
+    },
+    {
+      "probe_id": "P03",
+      "label": "tool_call",
+      "building_block": "Tools",
+      "status": "FLAKY",
+      "repeats": 3,
+      "passed": 2,
+      "latency_p50_s": 3.4
+    },
+    {
+      "probe_id": "P04",
+      "label": "sessions",
+      "building_block": "Sessions",
+      "status": "PASS",
+      "repeats": 3,
+      "passed": 3,
+      "latency_p50_s": 2.1
+    },
+    {
+      "probe_id": "P06",
+      "label": "errors",
+      "building_block": "Errors and timeouts",
+      "status": "FAIL",
+      "repeats": 3,
+      "passed": 0,
+      "latency_p50_s": 0.9
+    },
+    {
+      "probe_id": "P10",
+      "label": "diagnostics",
+      "building_block": "Diagnostics",
+      "status": "PASS",
+      "repeats": 3,
+      "passed": 3,
+      "latency_p50_s": 1.2
+    }
+  ]
+}
