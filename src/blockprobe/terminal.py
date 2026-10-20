@@ -80,9 +80,9 @@ def colour_enabled(
 def terminal_width(default: int = 80) -> int:
     """Return the terminal width in columns, floored at 40.
 
-    *default* is used when the size cannot be determined (output is
-    redirected), which is exactly the case where a very narrow width is
-    more likely to be a misreport than a real terminal.
+    *default* is the fallback used only when neither the ``COLUMNS``
+    environment variable nor the OS reports a size; the floor then keeps a
+    misreported width from squeezing the report below 40 columns.
     """
     columns = shutil.get_terminal_size(fallback=(default, 24)).columns
     return max(columns, 40)

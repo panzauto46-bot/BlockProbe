@@ -1,20 +1,37 @@
 # tests/test_terminal.py
 import io
+import os
+import shutil
+
 from blockprobe.terminal import (
     Glyphs, colour_enabled, status_colour, style, terminal_width,
 )
+
+
+class _TtyStream:
+    """A stream that reports itself as a TTY, for the gating tests."""
+
+    def __init__(self, tty: bool = True):
+        self._tty = tty
+
+    def isatty(self) -> bool:
+        return self._tty
 
 
 def test_colour_disabled_for_non_tty():
     assert colour_enabled(io.StringIO()) is False
 
 
+def test_colour_enabled_for_tty_without_no_color():
+    assert colour_enabled(_TtyStream(), env={}) is True
+
+
 def test_colour_disabled_by_no_color_env():
-    assert colour_enabled(io.StringIO(), env={"NO_COLOR": "1"}) is False
+    assert colour_enabled(_TtyStream(), env={"NO_COLOR": "1"}) is False
 
 
 def test_colour_disabled_by_force_off():
-    assert colour_enabled(io.StringIO(), force_off=True) is False
+    assert colour_enabled(_TtyStream(), force_off=True, env={}) is False
 
 
 def test_style_wraps_with_ansi():
@@ -43,5 +60,8 @@ def test_ascii_glyphs_fallback():
     assert ascii_glyphs.arrow == "->"
 
 
-def test_terminal_width_has_a_floor():
-    assert terminal_width() >= 40
+def test_terminal_width_has_a_floor(monkeypatch):
+    monkeypatch.setattr(
+        shutil, "get_terminal_size", lambda fallback=None: os.terminal_size((20, 24))
+    )
+    assert terminal_width() == 40
