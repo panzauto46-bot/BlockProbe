@@ -13,6 +13,9 @@ dependencies = ["pydantic>=2.7,<3"]
 dev = ["pytest>=8"]
 probe = ["openminion>=0.1.4,<0.2"]
 
+[project.scripts]
+blockprobe = "blockprobe.cli:main"
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 
